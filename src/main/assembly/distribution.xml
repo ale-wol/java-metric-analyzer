@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xml>
+
+<assembly>
+    <id>distribution</id>
+    <formats>
+        <format>zip</format>
+    </formats>
+    <includeBaseDirectory>false</includeBaseDirectory>
+    <fileSets>
+        <fileSet>
+            <directory>target/</directory>
+            <outputDirectory/>
+            <includes>
+                <include>*-shade.jar</include>
+            </includes>
+            <useDefaultExcludes>true</useDefaultExcludes>
+            <fileMode>0644</fileMode>
+        </fileSet>
+    </fileSets>
+</assembly>
