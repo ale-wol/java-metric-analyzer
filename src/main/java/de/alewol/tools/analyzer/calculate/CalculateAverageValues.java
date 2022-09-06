@@ -12,11 +12,11 @@ public class CalculateAverageValues {
 		long averageClassLength = 0;
 		long sumClassLength = 0;
 		
-		sumClassLength = JavaMetricAnalyzer.locClassesList.stream().mapToLong(Long::longValue).sum();
-		averageClassLength = sumClassLength / JavaMetricAnalyzer.locClassesList.size();
+		sumClassLength = JavaMetricAnalyzer.locClassesMap.values().stream().mapToLong(Long::longValue).sum();
+		averageClassLength = sumClassLength / JavaMetricAnalyzer.locClassesMap.size();
 		
-		log.debug("sumClassLength: " + sumClassLength);
-		log.debug("JavaMetricAnalyzer.locClassesList.size(): " + JavaMetricAnalyzer.locClassesList.size());
+		log.info("sumClassLength: " + sumClassLength);
+		log.debug("JavaMetricAnalyzer.locClassesMap.size(): " + JavaMetricAnalyzer.locClassesMap.size());
 		
 		return averageClassLength;
 	}

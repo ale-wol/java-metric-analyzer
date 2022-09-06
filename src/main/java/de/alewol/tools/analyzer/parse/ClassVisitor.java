@@ -11,11 +11,13 @@ public class ClassVisitor extends VoidVisitorAdapter{
 
 	@Override
 	public void visit(final ClassOrInterfaceDeclaration n, Object arg) {
+		String className = n.getName().toString();
 		Long classLength = n.toString().lines().count() - n.getAllContainedComments().size();
 		
-		JavaMetricAnalyzer.locClassesList.add(classLength);
+		JavaMetricAnalyzer.locClassesMap.put(className, classLength);
 		
-		log.info("Class Name: " + n.getName());
+		
+		log.info("Class Name: " + className);
 		log.info("Class Length: " + classLength);
 	}
 }

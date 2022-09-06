@@ -12,12 +12,3 @@ TODO
 
 # Example Usage
 TODO
-
-# Distribution
-logs/-------------------------------------->Destination directory for log files
-<br>
-config/------------------------------------>Configuration Files
-<br>
-    config.ini
-<br>
-java-metric-analyzer-{version}-shade.jar--->The Application
