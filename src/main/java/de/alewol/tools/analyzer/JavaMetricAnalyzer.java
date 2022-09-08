@@ -11,6 +11,7 @@ import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.visitor.VoidVisitor;
 
 import de.alewol.tools.analyzer.calculate.average.CalculateAverageValues;
+import de.alewol.tools.analyzer.calculate.max.CalculateMaxLoc;
 import de.alewol.tools.analyzer.conf.InitConf;
 import de.alewol.tools.analyzer.find.FindSources;
 import de.alewol.tools.analyzer.parse.ClassVisitor;
@@ -60,6 +61,7 @@ public class JavaMetricAnalyzer {
 			}
 			calculateAverageValues();
 			verifyMetrics();
+			calculateMaximumValues();
 		} else {
 			//Wrong Number of Arguments
 		}
@@ -109,5 +111,16 @@ public class JavaMetricAnalyzer {
 		VerifyCC verifyCc = new VerifyCC();
 		verifyCc.verifyCyclomaticCompexityMethods();
 		log.info(LINE_SEPARATOR);
+	}
+	
+	private void calculateMaximumValues()
+	{
+		log.info(LINE_SEPARATOR);
+		log.info("#### MAX VALUES ####");
+
+		CalculateMaxLoc maxloc = new CalculateMaxLoc();
+		AnalyzedClass classMaxLoc = maxloc.calculateMaxClassLoc();
+
+		log.info("Class " + classMaxLoc.getClassName() + " has max Lines of Code " + classMaxLoc.getLinesOfCode());
 	}
 }
