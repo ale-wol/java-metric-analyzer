@@ -7,6 +7,7 @@ import java.util.List;
 
 import de.alewol.tools.analyzer.JavaMetricAnalyzer;
 import de.alewol.tools.analyzer.conf.InitConf;
+import de.alewol.tools.analyzer.pojo.AnalyzedClass;
 import lombok.extern.log4j.Log4j2;
 
 @Log4j2
@@ -17,15 +18,12 @@ public class VerifyLoc {
 		log.info(LINE_SEPARATOR);
 		log.info("Max Loc Classes: " + InitConf.getMaxLocClasses().toString());
 		List<String> classesBreakingLocMax = new ArrayList<>();
-		List<String> keyList = new ArrayList<String>(JavaMetricAnalyzer.locClassesMap.keySet());
-		for(int i = 0; i < keyList.size(); i++)
+		
+		for(AnalyzedClass analyzedClass : JavaMetricAnalyzer.analyzedClasses)
 		{
-			String className = keyList.get(i);
-			Long loc = JavaMetricAnalyzer.locClassesMap.get(className);
-			
-			if(loc >= InitConf.getMaxLocClasses())
+			if(analyzedClass.getLinesOfCode() >= InitConf.getMaxLocClasses())
 			{
-				classesBreakingLocMax.add(className);
+				classesBreakingLocMax.add(analyzedClass.getClassName());
 			}
 		}
 		
