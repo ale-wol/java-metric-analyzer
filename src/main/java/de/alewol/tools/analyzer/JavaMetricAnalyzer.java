@@ -58,7 +58,7 @@ public class JavaMetricAnalyzer {
 			calculateAverageValues();
 			verifyMetrics();
 		} else {
-			//TODO Wrong Number of Arguments
+			//Wrong Number of Arguments
 		}
 	}
 	
@@ -87,9 +87,9 @@ public class JavaMetricAnalyzer {
 	{
 		CalculateAverageValues calculateAverage = new CalculateAverageValues();
 		log.info("#### AVERAGE VALUES ####");
-		log.info("Average Class Length: " + calculateAverage.calculateAverageClassLength());
+		log.info("Average Class Lines of Code: " + calculateAverage.calculateAverageClassLength());
 		log.info("Average Method Number per Class: " + calculateAverage.calculateAverageMethodCounterOfClasses());
-		log.info("Average Method Length: " + calculateAverage.calculateAverageMethodLength());
+		log.info("Average Method Lines of Code: " + calculateAverage.calculateAverageMethodLength());
 		log.info("Average Cyclomatic Complexity of all Methods: " + calculateAverage.calculateAverageCyclomaticComplexity());
 		log.info("analyzedClasses: " + analyzedClasses.size());
 	}
