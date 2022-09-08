@@ -1,21 +1,20 @@
 package de.alewol.tools.analyzer.verify;
 
-import static de.alewol.tools.analyzer.JavaMetricAnalyzer.LINE_SEPARATOR;
-
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 import de.alewol.tools.analyzer.JavaMetricAnalyzer;
 import de.alewol.tools.analyzer.conf.InitConf;
 import de.alewol.tools.analyzer.pojo.AnalyzedClass;
+import de.alewol.tools.analyzer.pojo.AnalyzedMethod;
 import lombok.extern.log4j.Log4j2;
 
 @Log4j2
 public class VerifyLoc {
 
 	public void verifyLocClasses() {
-		
-		log.info(LINE_SEPARATOR);
+		log.info("Check Lines of Code Classes:");
 		log.info("Max Loc Classes: " + InitConf.getMaxLocClasses().toString());
 		List<String> classesBreakingLocMax = new ArrayList<>();
 		
@@ -36,6 +35,37 @@ public class VerifyLoc {
 		else
 		{
 			log.info("No Class is violating the configured max Lines of Code :)");
+		}
+	}
+	
+	public void verifyLocMethods() {
+		log.info("Check Lines of Code Methods:");
+		log.info("Max Loc Methods: " + InitConf.getMaxLocMethods().toString());
+		LinkedHashMap<String, String> methodsBreakingLocMax = new LinkedHashMap<>();
+		
+		for(AnalyzedClass analyzedClass : JavaMetricAnalyzer.analyzedClasses)
+		{
+			for(AnalyzedMethod analyzedmethod : analyzedClass.getAnalyzedMethodList())
+			{
+				if(analyzedmethod.getLinesOfCode() >= InitConf.getMaxLocMethods())
+				{
+					methodsBreakingLocMax.put(analyzedClass.getClassName(), analyzedmethod.getMethodName());
+				}
+			}
+		}
+		
+		if(!methodsBreakingLocMax.isEmpty())
+		{
+			log.info(methodsBreakingLocMax.size() + " Methods violating the configured max Lines of Code:");
+			
+			for(var entry : methodsBreakingLocMax.entrySet())
+			{
+				log.info(entry.getValue() + " Method in class " + entry.getKey());
+			}
+		}
+		else
+		{
+			log.info("No Method is violating the configured max Lines of Code :)");
 		}
 	}
 }

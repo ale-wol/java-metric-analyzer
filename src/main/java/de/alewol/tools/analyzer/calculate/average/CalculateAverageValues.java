@@ -1,4 +1,4 @@
-package de.alewol.tools.analyzer.calculate;
+package de.alewol.tools.analyzer.calculate.average;
 
 import de.alewol.tools.analyzer.JavaMetricAnalyzer;
 import de.alewol.tools.analyzer.pojo.AnalyzedClass;
@@ -8,21 +8,21 @@ import lombok.extern.log4j.Log4j2;
 @Log4j2
 public class CalculateAverageValues {
 
-	public long calculateAverageClassLength() {
-		long averageClassLength = 0;
+	public long calculateAverageClassLoc() {
+		long averageClassLoc = 0;
 		long sumClassLength = 0;
 		
 		sumClassLength = JavaMetricAnalyzer.analyzedClasses.stream().mapToInt(AnalyzedClass::getLinesOfCode).sum();
-		averageClassLength = sumClassLength / JavaMetricAnalyzer.analyzedClasses.size();
+		averageClassLoc = sumClassLength / JavaMetricAnalyzer.analyzedClasses.size();
 		
 		log.debug("sumClassLength: " + sumClassLength);
 		log.debug("JavaMetricAnalyzer.locClassesMap.size(): " + JavaMetricAnalyzer.analyzedClasses.size());
 		
-		return averageClassLength;
+		return averageClassLoc;
 	}
 	
-	public long calculateAverageMethodLength() {
-		long averageMethodLength = 0;
+	public long calculateAverageMethodLoc() {
+		long averageMethodLoc = 0;
 		long sumMethodLoc = 0;
 		Integer sumAllMethods = 0;
 		
@@ -30,16 +30,16 @@ public class CalculateAverageValues {
 			sumMethodLoc += analyzedClass.getAnalyzedMethodList().stream().mapToLong(AnalyzedMethod::getLinesOfCode).sum();
 			sumAllMethods += analyzedClass.getAnalyzedMethodList().size();
 		}
-		averageMethodLength = sumMethodLoc / sumAllMethods;
+		averageMethodLoc = sumMethodLoc / sumAllMethods;
 
 		log.debug("sumAllMethods: " + sumAllMethods);		
 		log.debug("sumMethodLength: " + sumMethodLoc);
 		
-		return averageMethodLength;
+		return averageMethodLoc;
 	}
 	
 	public Double calculateAverageMethodCounterOfClasses() {
-		Double averageMethodCounterOfClasses = 0.0;
+		Double averageMethodCounterOfClasses;
 		Integer sumAllMethods = 0;
 		
 		for(AnalyzedClass analyzedClass : JavaMetricAnalyzer.analyzedClasses) {
@@ -54,7 +54,7 @@ public class CalculateAverageValues {
 	}
 	
 	public Double calculateAverageCyclomaticComplexity() {
-		Double averageCyclomaticComplexityOfMethods = 0.0;
+		Double averageCyclomaticComplexityOfMethods;
 		Integer sumAllCyclomaticComplexityValues = 0;
 		Integer sumAllMethods = 0;
 

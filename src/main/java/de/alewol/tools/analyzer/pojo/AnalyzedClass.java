@@ -22,7 +22,7 @@ public class AnalyzedClass {
 	private Path location;
 	@Getter
 	@Setter
-	private ArrayList<AnalyzedMethod> analyzedMethodList;
+	private ArrayList<AnalyzedMethod> analyzedMethodList = new ArrayList<>();
 
 	public AnalyzedClass(String className, Integer loc) {
 		this.className = className;
