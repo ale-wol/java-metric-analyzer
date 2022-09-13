@@ -2,9 +2,8 @@ package de.alewol.tools.analyzer.calculate.max;
 
 import de.alewol.tools.analyzer.JavaMetricAnalyzer;
 import de.alewol.tools.analyzer.pojo.AnalyzedClass;
-import lombok.extern.log4j.Log4j2;
+import de.alewol.tools.analyzer.pojo.AnalyzedMethod;
 
-@Log4j2
 public class CalculateMaxLoc {
 	
 	public AnalyzedClass calculateMaxClassLoc() {
@@ -21,8 +20,20 @@ public class CalculateMaxLoc {
 	}
 
 	
-	public long calculateMaxMethodsLoc() {
-		return 0;
+	public AnalyzedMethod calculateMaxMethodsLoc() {
+		AnalyzedMethod methodWithMaxLoc = null;
+		
+		for(AnalyzedClass analyzedClass : JavaMetricAnalyzer.analyzedClasses)
+		{
+			for (AnalyzedMethod analyzedMethod : analyzedClass.getAnalyzedMethodList())
+			{
+				if(methodWithMaxLoc == null || analyzedMethod.getLinesOfCode() > methodWithMaxLoc.getLinesOfCode())
+				{
+					methodWithMaxLoc = analyzedMethod;
+				}
+			}
+		}
+		return methodWithMaxLoc;
 		
 	}
 }

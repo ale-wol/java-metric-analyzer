@@ -1,7 +1,5 @@
 package de.alewol.tools.analyzer;
 
-import static de.alewol.tools.analyzer.JavaMetricAnalyzer.LINE_SEPARATOR;
-
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.List;
@@ -11,6 +9,7 @@ import com.github.javaparser.ast.CompilationUnit;
 import com.github.javaparser.ast.visitor.VoidVisitor;
 
 import de.alewol.tools.analyzer.calculate.average.CalculateAverageValues;
+import de.alewol.tools.analyzer.calculate.max.CalculateMaxCc;
 import de.alewol.tools.analyzer.calculate.max.CalculateMaxLoc;
 import de.alewol.tools.analyzer.conf.InitConf;
 import de.alewol.tools.analyzer.find.FindSources;
@@ -60,8 +59,9 @@ public class JavaMetricAnalyzer {
 				parseSourceFile(fileToParse);
 			}
 			calculateAverageValues();
-			verifyMetrics();
 			calculateMaximumValues();
+			
+			verifyMetrics();
 		} else {
 			//Wrong Number of Arguments
 		}
@@ -84,6 +84,16 @@ public class JavaMetricAnalyzer {
 			
 			analyzedClasses.get(analyzedClasses.size() - 1).setAnalyzedMethodList(collectedMethods);
 		}
+		
+		for (int i = 0; i < analyzedClasses.size(); i++)
+		{
+			AnalyzedClass analyzedClass = analyzedClasses.get(i);
+			for(AnalyzedMethod analyzedMethod : analyzedClass.getAnalyzedMethodList())
+			{
+				analyzedMethod.setAffiliatedClass(analyzedClass);
+			}
+		}
+		
 		log.info(collectedMethods.size() + " Methods in File " + fileToParse.toString());
 		log.info(LINE_SEPARATOR);
 	}
@@ -119,8 +129,15 @@ public class JavaMetricAnalyzer {
 		log.info("#### MAX VALUES ####");
 
 		CalculateMaxLoc maxloc = new CalculateMaxLoc();
+		CalculateMaxCc maxCc = new CalculateMaxCc();
+
 		AnalyzedClass classMaxLoc = maxloc.calculateMaxClassLoc();
+		AnalyzedMethod methodMaxLoc = maxloc.calculateMaxMethodsLoc();
+		AnalyzedMethod methodMaxCc = maxCc.calculateMaxCyclomaticComplexity();
 
 		log.info("Class " + classMaxLoc.getClassName() + " has max Lines of Code " + classMaxLoc.getLinesOfCode());
+		log.info("Method " + methodMaxLoc.getMethodName() + " in Class " + methodMaxLoc.getAffiliatedClass().getClassName() + " has max Lines of Code " + methodMaxLoc.getLinesOfCode());
+		log.info("Method " + methodMaxCc.getMethodName() + " in Class " + methodMaxCc.getAffiliatedClass().getClassName() + " has max Cyclomatic Complexity of " + methodMaxCc.getLinesOfCode());
+
 	}
 }
