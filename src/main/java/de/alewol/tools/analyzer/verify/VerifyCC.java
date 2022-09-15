@@ -1,6 +1,6 @@
 package de.alewol.tools.analyzer.verify;
 
-import java.util.LinkedHashMap;
+import java.util.ArrayList;
 
 import de.alewol.tools.analyzer.JavaMetricAnalyzer;
 import de.alewol.tools.analyzer.conf.InitConf;
@@ -14,7 +14,7 @@ public class VerifyCC {
 	public void verifyCyclomaticCompexityMethods() {
 		log.info("Check Cyclomatic Complexity of Code Methods:");
 		log.info("Max Cyclomatic Complexity : " + InitConf.getMaxCyclomaticComplexityMethods().toString());
-		LinkedHashMap<String, String> methodsBreakingCcMax = new LinkedHashMap<>();
+		ArrayList<AnalyzedMethod> methodsBreakingCcMax = new ArrayList<>();
 
 		for(AnalyzedClass analyzedClass : JavaMetricAnalyzer.analyzedClasses)
 		{
@@ -22,7 +22,7 @@ public class VerifyCC {
 			{
 				if(analyzedmethod.getCyclomaticComplexity() >= InitConf.getMaxCyclomaticComplexityMethods())
 				{
-					methodsBreakingCcMax.put(analyzedClass.getClassName(), analyzedmethod.getMethodName());
+					methodsBreakingCcMax.add(analyzedmethod);
 				}
 			}
 		}
@@ -31,9 +31,9 @@ public class VerifyCC {
 		{
 			log.info(methodsBreakingCcMax.size() + " Methods violating the configured max Cyclomatic Compexity:");
 			
-			for(var entry : methodsBreakingCcMax.entrySet())
+			for(AnalyzedMethod analyzedMethod : methodsBreakingCcMax)
 			{
-				log.info(entry.getValue() + " Method in class " + entry.getKey());
+				log.info(analyzedMethod.getMethodName() + " Method in Class " + analyzedMethod.getAffiliatedClass().getClassName());
 			}
 		}
 		else
