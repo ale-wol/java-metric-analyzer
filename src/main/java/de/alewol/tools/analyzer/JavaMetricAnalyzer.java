@@ -11,6 +11,7 @@ import com.github.javaparser.ast.visitor.VoidVisitor;
 import de.alewol.tools.analyzer.calculate.average.CalculateAverageValues;
 import de.alewol.tools.analyzer.calculate.max.CalculateMaxCc;
 import de.alewol.tools.analyzer.calculate.max.CalculateMaxLoc;
+import de.alewol.tools.analyzer.calculate.max.CalculateMaxNumberOfMethods;
 import de.alewol.tools.analyzer.conf.InitConf;
 import de.alewol.tools.analyzer.find.FindSources;
 import de.alewol.tools.analyzer.parse.ClassVisitor;
@@ -130,12 +131,15 @@ public class JavaMetricAnalyzer {
 
 		CalculateMaxLoc maxloc = new CalculateMaxLoc();
 		CalculateMaxCc maxCc = new CalculateMaxCc();
+		CalculateMaxNumberOfMethods maxMethods = new CalculateMaxNumberOfMethods();
 
+		AnalyzedClass classMaxMethods = maxMethods.calculateClassMaxNumberOfMethods();
 		AnalyzedClass classMaxLoc = maxloc.calculateMaxClassLoc();
 		AnalyzedMethod methodMaxLoc = maxloc.calculateMaxMethodsLoc();
 		AnalyzedMethod methodMaxCc = maxCc.calculateMaxCyclomaticComplexity();
 
 		log.info("Class " + classMaxLoc.getClassName() + " has max Lines of Code " + classMaxLoc.getLinesOfCode());
+		log.info("Class " + classMaxMethods.getClassName() + " has max Methods of " + classMaxMethods.getAnalyzedMethodList().size());
 		log.info("Method " + methodMaxLoc.getMethodName() + " in Class " + methodMaxLoc.getAffiliatedClass().getClassName() + " has max Lines of Code " + methodMaxLoc.getLinesOfCode());
 		log.info("Method " + methodMaxCc.getMethodName() + " in Class " + methodMaxCc.getAffiliatedClass().getClassName() + " has max Cyclomatic Complexity of " + methodMaxCc.getLinesOfCode());
 
