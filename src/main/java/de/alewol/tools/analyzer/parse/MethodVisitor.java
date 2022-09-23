@@ -22,15 +22,28 @@ public class MethodVisitor extends VoidVisitorAdapter<List<AnalyzedMethod>> {
 			String methodBody = md.getBody().get().toString();
 			Long methodLenght = md.toString().lines().count() - md.getAllContainedComments().size();
 
-			Integer countIf = StringUtils.countMatches(methodBody, "if");
-			Integer countFor = StringUtils.countMatches(methodBody, "for");
-			Integer countWhile = StringUtils.countMatches(methodBody, "while");
+			Integer countIf = StringUtils.countMatches(methodBody, "if (");
+			Integer countFor = StringUtils.countMatches(methodBody, "for (");
+			Integer countWhile = StringUtils.countMatches(methodBody, "while (");
 			Integer countAnd = StringUtils.countMatches(methodBody, "&&");
 			Integer countOr = StringUtils.countMatches(methodBody, "||");
-			Integer countThrow = StringUtils.countMatches(methodBody, "throw");
-			Integer countCatch = StringUtils.countMatches(methodBody, "catch");
+			Integer countThrow = StringUtils.countMatches(methodBody, "throw (");
+			Integer countCatch = StringUtils.countMatches(methodBody, "catch (");
 
-			Integer cyclomaticComplexity = countIf + countFor + countWhile + countAnd + countOr + countThrow
+			log.debug(LINE_SEPARATOR);
+			log.debug(methodBody);
+			log.debug(LINE_SEPARATOR);
+
+			
+			log.debug("countIf: " + countIf);
+			log.debug("countFor: " + countFor);
+			log.debug("countWhile: " + countWhile);
+			log.debug("countAnd: " + countAnd);
+			log.debug("countOr: " + countOr);
+			log.debug("countThrow: " + countThrow);
+			log.debug("countCatch: " + countCatch);
+
+			Integer cyclomaticComplexity = 1 + countIf + countFor + countWhile + countAnd + countOr + countThrow
 					+ countCatch;
 
 			log.info(LINE_SEPARATOR);
