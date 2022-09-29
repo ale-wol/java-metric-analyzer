@@ -19,6 +19,7 @@ import de.alewol.tools.analyzer.parse.MethodVisitor;
 import de.alewol.tools.analyzer.parse.SourceParser;
 import de.alewol.tools.analyzer.pojo.AnalyzedClass;
 import de.alewol.tools.analyzer.pojo.AnalyzedMethod;
+import de.alewol.tools.analyzer.print.ResultPrinter;
 import de.alewol.tools.analyzer.verify.VerifyCC;
 import de.alewol.tools.analyzer.verify.VerifyLoc;
 import lombok.Getter;
@@ -30,6 +31,9 @@ public class JavaMetricAnalyzer {
 	public static final String LINE_SEPARATOR = "------------------------------------------------------------------------";
 
 	private static JavaMetricAnalyzer singletonInstance;
+	
+	@Getter
+	private static String projectDirToScan;
 
 	@Getter
 	private static ArrayList<Path> sourceFiles = new ArrayList<>();
@@ -50,18 +54,23 @@ public class JavaMetricAnalyzer {
 	public void runApp(String[] args) {
 		if (args.length == 1) {
 			InitConf.initReadConfig();
-			String directoryToScan = args[0];
+			projectDirToScan = args[0];
 
 			FindSources finder = new FindSources();
-			finder.findJavaSourceFiles(directoryToScan);
+			finder.findJavaSourceFiles(projectDirToScan);
 
 			for (Path fileToParse : sourceFiles) {
 				parseSourceFile(fileToParse);
-			}
+			}			
 			calculateAverageValues();
 			calculateMaximumValues();
 
 			verifyMetrics();
+			
+			ResultPrinter printer = new ResultPrinter();
+			printer.generateReportDirectory();
+			printer.writeClassReport();
+			printer.writeMethodReport();
 		} else {
 			// Wrong Number of Arguments
 		}

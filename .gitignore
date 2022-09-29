@@ -77,3 +77,8 @@ nb-configuration.xml
 ## CODE MR (https://www.codemr.co.uk/)
 ##############################
 codemr/
+
+##############################
+## CSV Reports
+##############################
+report/

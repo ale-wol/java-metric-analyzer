@@ -16,9 +16,6 @@ public class AnalyzedClass {
 	private Integer linesOfCode;
 	@Getter
 	@Setter
-	private Double cyclomaticComplexity;
-	@Getter
-	@Setter
 	private Path location;
 	@Getter
 	@Setter
